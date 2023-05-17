@@ -196,7 +196,7 @@ class _TreeNodeState extends State<TreeNode>
                 if (widget.showActions && widget.data.showRemoveButton)
                   TextButton(
                     onPressed: () {
-                      widget.remove(widget.data);
+                      //widget.remove(widget.data);
                       widget.onRemove(widget.data, widget.parent);
                     },
                     child:
