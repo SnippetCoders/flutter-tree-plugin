@@ -103,8 +103,8 @@ class _TreeViewState extends State<TreeView> {
   }
 
   void remove(TreeNodeData node) {
-    _remove(node, _renderList);
-    setState(() {});
+    // _remove(node, _renderList);
+    // setState(() {});
   }
 
   Future<bool> load(TreeNodeData node) async {
@@ -130,7 +130,7 @@ class _TreeViewState extends State<TreeView> {
       expanded: false,
       children: _renderList,
       showAddButton: false,
-      showRemoveButton: false,      
+      showRemoveButton: false,
     );
   }
 
