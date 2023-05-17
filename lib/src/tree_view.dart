@@ -25,6 +25,8 @@ class TreeView extends StatefulWidget {
   final TreeNodeData Function(TreeNodeData parent)? append;
   final Future<List<TreeNodeData>> Function(TreeNodeData parent)? load;
 
+  final Widget? leading;
+
   const TreeView({
     Key? key,
     required this.data,
@@ -45,6 +47,7 @@ class TreeView extends StatefulWidget {
     this.showCheckBox = false,
     this.contentTappable = false,
     this.icon = const Icon(Icons.expand_more, size: 16.0),
+    this.leading,
   }) : super(key: key);
 
   @override
@@ -127,7 +130,7 @@ class _TreeViewState extends State<TreeView> {
       expanded: false,
       children: _renderList,
       showAddButton: false,
-      showRemoveButton: false,
+      showRemoveButton: false,      
     );
   }
 
@@ -144,10 +147,30 @@ class _TreeViewState extends State<TreeView> {
                 bottom: 12.0,
               ),
               child: TextField(
-                  onChanged: _onChange,
-                  decoration: InputDecoration(
-                    labelText: widget.filterPlaceholder,
-                  )),
+                onChanged: _onChange,
+                decoration: InputDecoration(
+                  labelText: widget.filterPlaceholder,
+                ),
+                // decoration: InputDecoration(
+                //   labelText: widget.filterPlaceholder,
+                //   hintText: "Search here...",
+                //   filled: true,
+                //   border: const OutlineInputBorder(
+                //     borderRadius: BorderRadius.all(
+                //       Radius.circular(8),
+                //     ),
+                //     borderSide: BorderSide(color: Colors.grey),
+                //   ),
+                //   focusedBorder: const OutlineInputBorder(
+                //     borderRadius: BorderRadius.all(
+                //       Radius.circular(8),
+                //     ),
+                //     borderSide: BorderSide(
+                //       color: Colors.grey,
+                //     ),
+                //   ),
+                // ),
+              ),
             ),
           ...List.generate(
             _renderList.length,
@@ -171,6 +194,7 @@ class _TreeViewState extends State<TreeView> {
                 onRemove: widget.onRemove ?? (n, p) {},
                 onAppend: widget.onAppend ?? (n, p) {},
                 onCollapse: widget.onCollapse ?? (n) {},
+                leading: widget.leading,
               );
             },
           )

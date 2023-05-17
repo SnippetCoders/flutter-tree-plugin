@@ -13,6 +13,8 @@ class TreeNode extends StatefulWidget {
   final bool contentTappable;
   final double offsetLeft;
 
+  final Widget? leading;
+
   final Function(TreeNodeData node) onTap;
   final void Function(bool checked, TreeNodeData node) onCheck;
 
@@ -48,6 +50,7 @@ class TreeNode extends StatefulWidget {
     required this.onAppend,
     required this.onRemove,
     required this.onCollapse,
+    this.leading,
   }) : super(key: key);
 
   @override
@@ -83,6 +86,7 @@ class _TreeNodeState extends State<TreeNode>
         onCollapse: widget.onCollapse,
         onRemove: widget.onRemove,
         onAppend: widget.onAppend,
+        leading: widget.leading,
       );
     });
   }
@@ -167,6 +171,7 @@ class _TreeNodeState extends State<TreeNode>
                     height: 12.0,
                     child: CircularProgressIndicator(strokeWidth: 1.0),
                   ),
+                if (widget.data.leading != null) widget.data.leading!,
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -181,7 +186,10 @@ class _TreeNodeState extends State<TreeNode>
                   TextButton(
                     onPressed: () {
                       ///widget.append(widget.data);
-                      widget.onAppend(widget.data, widget.parent);
+                      widget.onAppend(
+                        widget.data,
+                        widget.parent,
+                      );
                     },
                     child: const Text('Add', style: TextStyle(fontSize: 12.0)),
                   ),

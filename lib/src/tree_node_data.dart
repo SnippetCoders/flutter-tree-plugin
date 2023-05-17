@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+
 class TreeNodeData {
   String title;
+  Widget? leading;
   bool expanded;
   bool checked;
   dynamic extra;
@@ -15,6 +18,7 @@ class TreeNodeData {
     required this.showAddButton,
     required this.showRemoveButton,
     this.extra,
+    this.leading,
   });
 
   TreeNodeData.from(TreeNodeData other)
@@ -26,6 +30,7 @@ class TreeNodeData {
           children: other.children,
           showAddButton: other.showAddButton,
           showRemoveButton: other.showRemoveButton,
+          leading: other.leading,
         );
 
   @override
