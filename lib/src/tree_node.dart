@@ -191,7 +191,10 @@ class _TreeNodeState extends State<TreeNode>
                         widget.parent,
                       );
                     },
-                    child: const Text('Add', style: TextStyle(fontSize: 12.0)),
+                    child: Text(
+                      widget.data.addButtonLabel ?? "Add",
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
                   ),
                 if (widget.showActions && widget.data.showRemoveButton)
                   TextButton(

@@ -130,6 +130,7 @@ class _TreeViewState extends State<TreeView> {
       expanded: false,
       children: _renderList,
       showAddButton: false,
+      addButtonLabel: 'Add',
       showRemoveButton: false,
     );
   }
