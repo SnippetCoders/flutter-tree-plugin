@@ -9,7 +9,7 @@ class TreeNodeData {
   List<TreeNodeData> children;
   bool showAddButton;
   bool showRemoveButton;
-  String? addButtonLabel;
+  Widget? addButtonWidget;
 
   TreeNodeData({
     required this.title,
@@ -20,7 +20,7 @@ class TreeNodeData {
     required this.showRemoveButton,
     this.extra,
     this.leading,
-    this.addButtonLabel,
+    this.addButtonWidget,
   });
 
   TreeNodeData.from(TreeNodeData other)
@@ -33,7 +33,7 @@ class TreeNodeData {
           showAddButton: other.showAddButton,
           showRemoveButton: other.showRemoveButton,
           leading: other.leading,
-          addButtonLabel: other.addButtonLabel,
+          addButtonWidget: other.addButtonWidget,
         );
 
   @override
