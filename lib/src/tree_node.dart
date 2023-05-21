@@ -30,6 +30,8 @@ class TreeNode extends StatefulWidget {
   final void Function(TreeNodeData node) append;
   final void Function(TreeNodeData node, TreeNodeData parent) onAppend;
 
+  final void Function(TreeNodeData node, TreeNodeData parent) onEdit;
+
   const TreeNode({
     Key? key,
     required this.data,
@@ -49,6 +51,7 @@ class TreeNode extends StatefulWidget {
     required this.onExpand,
     required this.onAppend,
     required this.onRemove,
+    required this.onEdit,
     required this.onCollapse,
     this.leading,
   }) : super(key: key);
@@ -85,6 +88,7 @@ class _TreeNodeState extends State<TreeNode>
         onLoad: widget.onLoad,
         onCollapse: widget.onCollapse,
         onRemove: widget.onRemove,
+        onEdit: widget.onEdit,
         onAppend: widget.onAppend,
         leading: widget.leading,
       );
@@ -139,7 +143,7 @@ class _TreeNodeState extends State<TreeNode>
               : () {},
           child: Container(
             margin: const EdgeInsets.only(bottom: 2.0),
-            padding: const EdgeInsets.only(right: 12.0),
+            padding: const EdgeInsets.only(right: 5.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -173,14 +177,16 @@ class _TreeNodeState extends State<TreeNode>
                   ),
                 if (widget.data.leading != null) widget.data.leading!,
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                    child: Text(
-                      widget.data.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                  // child: Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  //   child: Text(
+                  //     widget.data.title,
+                  //     maxLines: 1,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     font
+                  //   ),
+                  // ),
+                  child: widget.data.title,
                 ),
                 if (widget.showActions && widget.data.showAddButton)
                   TextButton(
@@ -198,14 +204,33 @@ class _TreeNodeState extends State<TreeNode>
                     child: widget.data.addButtonWidget ?? const SizedBox(),
                   ),
                 if (widget.showActions && widget.data.showRemoveButton)
-                  TextButton(
-                    onPressed: () {
-                      //widget.remove(widget.data);
-                      widget.onRemove(widget.data, widget.parent);
-                    },
-                    child:
-                        const Text('Remove', style: TextStyle(fontSize: 12.0)),
+                  PopupMenuButton(
+                    itemBuilder: (ctx) => [
+                      _buildPopupMenuItem('Edit', Icons.edit, () {
+                        WidgetsBinding.instance.addPostFrameCallback(
+                          (_) {
+                            widget.onEdit(widget.data, widget.parent);
+                          },
+                        );
+                      }),
+                      _buildPopupMenuItem('Remove', Icons.delete, () {
+                        WidgetsBinding.instance.addPostFrameCallback(
+                          (_) {
+                            widget.onRemove(widget.data, widget.parent);
+                          },
+                        );
+                      }),
+                    ],
                   ),
+
+                // TextButton(
+                //   onPressed: () {
+                //     //widget.remove(widget.data);
+                //     widget.onRemove(widget.data, widget.parent);
+                //   },
+                //   child:
+                //       const Text('Remove', style: TextStyle(fontSize: 12.0)),
+                // ),
               ],
             ),
           ),
@@ -244,5 +269,31 @@ class _TreeNodeState extends State<TreeNode>
       }
       setState(() {});
     }
+  }
+
+  PopupMenuItem _buildPopupMenuItem(
+    String title,
+    IconData iconData,
+    Function onTap,
+  ) {
+    return PopupMenuItem(
+      onTap: (() => onTap()),
+      child: Row(
+        children: [
+          Icon(
+            iconData,
+            color: Colors.black,
+            size: 14,
+          ),
+          const SizedBox(
+            width: 2,
+          ),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 13),
+          ),
+        ],
+      ),
+    );
   }
 }

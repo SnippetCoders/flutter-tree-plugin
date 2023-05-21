@@ -21,6 +21,7 @@ class TreeView extends StatefulWidget {
   final void Function(bool checked, TreeNodeData node)? onCheck;
   final void Function(TreeNodeData node, TreeNodeData parent)? onAppend;
   final void Function(TreeNodeData node, TreeNodeData parent)? onRemove;
+  final void Function(TreeNodeData node, TreeNodeData parent)? onEdit;
 
   final TreeNodeData Function(TreeNodeData parent)? append;
   final Future<List<TreeNodeData>> Function(TreeNodeData parent)? load;
@@ -37,6 +38,7 @@ class TreeView extends StatefulWidget {
     this.onCollapse,
     this.onAppend,
     this.onRemove,
+    this.onEdit,
     this.append,
     this.load,
     this.lazy = false,
@@ -68,10 +70,10 @@ class _TreeViewState extends State<TreeView> {
         tempNode.children = _filter(val, tempNode.children);
       }
 
-      if (tempNode.title.contains(RegExp(val, caseSensitive: false)) ||
-          tempNode.children.isNotEmpty) {
-        tempNodes.add(tempNode);
-      }
+      // if (tempNode.title.contains(RegExp(val, caseSensitive: false)) ||
+      //     tempNode.children.isNotEmpty) {
+      //   tempNodes.add(tempNode);
+      // }
     }
 
     return tempNodes;
@@ -124,7 +126,7 @@ class _TreeViewState extends State<TreeView> {
     super.initState();
     _renderList = widget.data;
     _root = TreeNodeData(
-      title: '',
+      title: Text(''),
       extra: null,
       checked: false,
       expanded: false,
@@ -192,6 +194,7 @@ class _TreeViewState extends State<TreeView> {
                 onCheck: widget.onCheck ?? (b, n) {},
                 onExpand: widget.onExpand ?? (n) {},
                 onRemove: widget.onRemove ?? (n, p) {},
+                onEdit: widget.onEdit ?? (n, p) {},
                 onAppend: widget.onAppend ?? (n, p) {},
                 onCollapse: widget.onCollapse ?? (n) {},
                 leading: widget.leading,
